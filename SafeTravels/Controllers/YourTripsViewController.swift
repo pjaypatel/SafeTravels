@@ -10,7 +10,7 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 
-class TripsViewController: UITableViewController {
+class YourTripsViewController: UITableViewController {
 
     let db = Firestore.firestore()
     var trips: [Trip] = []
@@ -60,19 +60,11 @@ class TripsViewController: UITableViewController {
             self.tripsTable.reloadData()
         }
     }
-    
-    func commaSeparatedPassengers(trip: Trip) -> String {
-        var str = ""
-        for passengerName in trip.passengers {
-            str.append("\(passengerName) ")
-        }
-        return str
-    }
 
 }
 
 //MARK: table view delegate methods
-extension TripsViewController {
+extension YourTripsViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return trips.count
     }
@@ -80,10 +72,16 @@ extension TripsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "ViewTripCell")
         cell.textLabel?.text = "\(trips[indexPath.row].destination)"
-        cell.detailTextLabel?.text = "Passengers: \(commaSeparatedPassengers(trip: trips[indexPath.row]))"
+        cell.detailTextLabel?.text = "Passengers: \(trips[indexPath.row].stringifyPassengers())"
         cell.imageView?.image = UIImage(systemName: "play.circle")
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = (storyboard?.instantiateViewController(withIdentifier: "SingleTripView")) as! SingleTripViewController
+        vc.trip = trips[indexPath.row]
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 

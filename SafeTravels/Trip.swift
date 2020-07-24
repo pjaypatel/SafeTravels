@@ -46,6 +46,14 @@ class Trip {
         }
     }
     
+    func stringifyPassengers() -> String {
+        var str = ""
+        for passengerName in self.passengers {
+            str.append("\(passengerName) ")
+        }
+        return str
+    }
+    
     func writeTrip() {
         let docRef = db.collection(K.FStore.tripsCollection.name).document(host).collection(K.FStore.tripsCollection.userSpecific).document()
         docRef.setData([

@@ -68,10 +68,10 @@
             </objects>
             <point key="canvasLocation" x="-526" y="-5"/>
         </scene>
-        <!--Trips-->
+        <!--Your Trips-->
         <scene sceneID="GCc-N1-LbM">
             <objects>
-                <tableViewController id="M7n-UB-qO4" userLabel="Trips" customClass="TripsViewController" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="M7n-UB-qO4" userLabel="Your Trips" customClass="YourTripsViewController" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZS0-59-jw8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,11 +100,62 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tripsTable" destination="ZS0-59-jw8" id="4fe-RN-2tF"/>
+                        <segue destination="Kbm-ef-Bf0" kind="show" identifier="ViewTrip" id="7xi-8B-tEo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cC-xA-oTh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2597.1014492753625" y="363.61607142857139"/>
+        </scene>
+        <!--View Single Trip-->
+        <scene sceneID="OJD-by-YiS">
+            <objects>
+                <viewController storyboardIdentifier="SingleTripView" modalPresentationStyle="fullScreen" id="Kbm-ef-Bf0" userLabel="View Single Trip" customClass="SingleTripViewController" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9gU-l8-PQ8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcv-L7-0kh">
+                                <rect key="frame" x="20" y="684" width="374" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <state key="normal" title="Start!"/>
+                                <connections>
+                                    <action selector="startBtnClicked:" destination="Kbm-ef-Bf0" eventType="touchUpInside" id="Cr5-PF-Hts"/>
+                                </connections>
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="m6X-Zb-Bfj">
+                                <rect key="frame" x="20" y="205" width="374" height="432"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Destination:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gf-h1-Wun" userLabel="Destination">
+                                <rect key="frame" x="20" y="90" width="374" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Passengers:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z64-nj-Rc5" userLabel="Passengers">
+                                <rect key="frame" x="20" y="140" width="374" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Dzn-TN-jkk"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Q2L-mQ-fuU"/>
+                    <connections>
+                        <outlet property="destinationLabel" destination="3gf-h1-Wun" id="bQO-1u-Xvb"/>
+                        <outlet property="mapView" destination="m6X-Zb-Bfj" id="kPe-pR-rS8"/>
+                        <outlet property="passengersLabel" destination="Z64-nj-Rc5" id="vIS-6z-BTf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ij-6l-Jpa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2594.202898550725" y="1101.5625"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Y6b-7S-uG5">
@@ -239,7 +290,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rh5-Df-rCG">
                                         <rect key="frame" x="0.0" y="615" width="374" height="48"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Start Trip!"/>
+                                        <state key="normal" title="Queue Trip!"/>
                                         <connections>
                                             <action selector="startTrip:" destination="idr-HY-dyK" eventType="touchUpInside" id="3fX-wP-03J"/>
                                         </connections>
@@ -269,7 +320,7 @@
         <!--User Search Table-->
         <scene sceneID="Bum-f7-Jq6">
             <objects>
-                <tableViewController storyboardIdentifier="UserSearchTable" id="xGu-02-hwu" customClass="UserSearchTable" customModule="CleanSlate" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserSearchTable" id="xGu-02-hwu" customClass="UserSearchTable" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="JEJ-Mt-jsd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -308,7 +359,7 @@
         <!--Map View Controller-->
         <scene sceneID="VFM-6q-1Yd">
             <objects>
-                <viewController storyboardIdentifier="showMapViewController" id="tYP-GD-hHO" customClass="MapViewController" customModule="CleanSlate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="showMapViewController" id="tYP-GD-hHO" customClass="MapViewController" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rz1-Tf-4TH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -337,7 +388,7 @@
         <!--Location Search Table-->
         <scene sceneID="P35-n8-rko">
             <objects>
-                <tableViewController storyboardIdentifier="LocationSearchTable" id="o4i-aE-Ar4" customClass="LocationSearchTable" customModule="CleanSlate" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LocationSearchTable" id="o4i-aE-Ar4" customClass="LocationSearchTable" customModule="SafeTravels" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hY0-6p-iUn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
