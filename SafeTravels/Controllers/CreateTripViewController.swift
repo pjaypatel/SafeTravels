@@ -40,8 +40,12 @@ class CreateTripViewController: UIViewController {
     
     @IBAction func startTrip(_ sender: Any) {
         //TODO: need to handle the case of required fields not being filled in here
+        if let uid = Auth.auth().currentUser?.uid {
+            newTrip.host = uid
+        } else {
+            print("no user logged in!")
+        }
         newTrip.destination = addressString
-        newTrip.host = Auth.auth().currentUser?.uid as! String
         newTrip.passengers = passengers
         newTrip.time = NSDate()
         newTrip.writeTrip()

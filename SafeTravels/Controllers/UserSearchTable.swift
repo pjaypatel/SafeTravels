@@ -40,7 +40,7 @@ class UserSearchTable: UITableViewController {
     }
     
     func buildUsersArray(from user: User, completion: @escaping () -> Void) {
-        let docRef = db.collection("following").document(user.uid).collection("userFollowing")
+        let docRef = db.collection(K.FStore.followingCollection.name).document(user.uid).collection(K.FStore.followingCollection.userSpecific)
         
         docRef.getDocuments() { (querySnapshot, err) in
             if let err = err {

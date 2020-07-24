@@ -47,7 +47,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     func registerUser(with authResult: AuthDataResult) {
         let db = Firestore.firestore()
-        let docRef = db.collection("users").document(authResult.user.uid)
+        let docRef = db.collection(K.FStore.usersCollection.name).document(authResult.user.uid)
         docRef.getDocument { (document, error) in
             if let document = document {
                 if document.exists{
@@ -55,10 +55,10 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     print("user has already been registered!")
                 } else {
                     print("Document does not exist")
-                    db.collection("users").document(authResult.user.uid).setData([
-                        "name": authResult.user.displayName ?? authResult.user.uid,
-                        "email": authResult.user.email ?? "",
-                        "phone": authResult.user.phoneNumber ?? ""
+                    db.collection(K.FStore.usersCollection.name).document(authResult.user.uid).setData([
+                        K.FStore.userDocument.name: authResult.user.displayName ?? authResult.user.uid,
+                        K.FStore.userDocument.email: authResult.user.email ?? "",
+                        K.FStore.userDocument.phone: authResult.user.phoneNumber ?? ""
                     ])
                 }
             }

@@ -38,7 +38,7 @@ class TripsViewController: UITableViewController {
     
     func buildTripsArray(from user: User) {
         trips = []
-        let docRef = db.collection("trips").document(user.uid).collection("userTrips")
+        let docRef = db.collection(K.FStore.tripsCollection.name).document(user.uid).collection(K.FStore.tripsCollection.userSpecific)
         
         docRef.getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -52,8 +52,6 @@ class TripsViewController: UITableViewController {
         }
     }
     
-
-
     func internalizeTrip(from document: DocumentSnapshot) {
         let trip = Trip()
         trip.setTripFields(from: document)

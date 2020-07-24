@@ -19,9 +19,9 @@ class Trip {
     
     func setTripFields(from document: DocumentSnapshot) {
         let data = document.data()
-        if let destination = data?["destination"] as? String,
-            let host = data?["host"] as? String,
-            let time = data?["time"] as? Timestamp {
+        if let destination = data?[K.FStore.tripDocument.destField] as? String,
+            let host = data?[K.FStore.tripDocument.hostField] as? String,
+            let time = data?[K.FStore.tripDocument.timeField] as? Timestamp {
             print(destination)
             self.destination = destination
             self.host = host
@@ -33,7 +33,7 @@ class Trip {
     
     func buildPassengersArray(from document: DocumentSnapshot, completion: @escaping () -> Void) {
         let docRef = document.reference
-        docRef.collection("passengers").getDocuments() { (querySnapshot, err) in
+        docRef.collection(K.FStore.tripDocument.passengers).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 completion()
@@ -47,11 +47,11 @@ class Trip {
     }
     
     func writeTrip() {
-        let docRef = db.collection("trips").document(host).collection("userTrips").document()
+        let docRef = db.collection(K.FStore.tripsCollection.name).document(host).collection(K.FStore.tripsCollection.userSpecific).document()
         docRef.setData([
-            "destination": destination,
-            "host": host,
-            "time": time
+            K.FStore.tripDocument.destField: destination,
+            K.FStore.tripDocument.hostField: host,
+            K.FStore.tripDocument.timeField: time
         ]) { err in
             if let err = err {
                 print("Error writing document: \(err)")
@@ -61,7 +61,7 @@ class Trip {
         }
         
         for person in passengers {
-            docRef.collection("passengers").document(person).setData([:]) { err in
+            docRef.collection(K.FStore.tripDocument.passengers).document(person).setData([:]) { err in
                 if let err = err {
                     print("Error writing document: \(err)")
                 } else {

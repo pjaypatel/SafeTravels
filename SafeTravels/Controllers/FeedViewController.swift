@@ -45,7 +45,7 @@ class FeedViewController: UITableViewController {
     
     
     func buildTripsArray(from uid: String, completion: @escaping () -> Void) {
-        let docRef = db.collection("trips").document(uid).collection("userTrips")
+        let docRef = db.collection(K.FStore.tripsCollection.name).document(uid).collection(K.FStore.tripsCollection.userSpecific)
         print("building trips....")
         
         docRef.getDocuments() { (querySnapshot, err) in
@@ -63,7 +63,7 @@ class FeedViewController: UITableViewController {
     }
     
     func buildFollowingArray(from user: User, completion: @escaping () -> Void) {
-        let docRef = db.collection("following").document(user.uid).collection("userFollowing")
+        let docRef = db.collection(K.FStore.followingCollection.name).document(user.uid).collection(K.FStore.followingCollection.userSpecific)
         
         docRef.getDocuments() { (querySnapshot, err) in
             if let err = err {
