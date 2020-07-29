@@ -8,30 +8,59 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 import UserNotifications
 import FirebaseFirestore
 import FirebaseAuth
 
 class CreateTripViewController: UIViewController {
     
+    private let locationManager = CLLocationManager()
+    private var currentPlace: CLPlacemark?
+    private let completer = MKLocalSearchCompleter()
+    private var editingTextField: UITextField?
+    private var currentRegion: MKCoordinateRegion?
+    
     var newTrip = Trip()
 
-    @IBOutlet weak var destAddress: UILabel!
+    @IBOutlet weak var originTextField: UITextField!
+    @IBOutlet weak var destinationTextField: UITextField!
     @IBOutlet weak var usersView: UITableView!
     
     var userSearchTable : UserSearchTable?
     
     var passengers : [String] = []
-    var addressString : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        attemptLocationAccess()
         newTrip = Trip()
         usersView.dataSource = self
         usersView.delegate = self
-        destAddress.text = addressString
+        originTextField.delegate = self
+        originTextField.addTarget(self, action: #selector(updateSuggestion(_:)), for: .editingChanged)
+        destinationTextField.delegate = self
+        destinationTextField.addTarget(self, action: #selector(updateSuggestion(_:)), for: .editingChanged)
+        completer.delegate = self
         userSearchTable = storyboard!.instantiateViewController(identifier: "UserSearchTable")
         userSearchTable?.customDelegateForDataReturn = self
+    }
+    
+    @objc private func updateSuggestion(_ field: UITextField) {
+        if field == originTextField && currentPlace != nil {
+          currentPlace = nil
+          field.text = ""
+        }
+        editingTextField = field
+        guard let query = field.text else {
+//          hideSuggestionView(animated: true)
+
+          if completer.isSearching {
+            completer.cancel()
+          }
+          return
+        }
+        completer.queryFragment = query
     }
     
     @IBAction func searchUsersPressed(_ sender: UIButton) {
@@ -45,15 +74,93 @@ class CreateTripViewController: UIViewController {
         } else {
             print("no user logged in!")
         }
-        newTrip.destination = addressString
         newTrip.passengers = passengers
         newTrip.time = NSDate()
         newTrip.writeTrip()
-        //TODO: save trip to firebase
         navigationController?.popToRootViewController(animated: true)
+    }
+    @IBAction func textFieldDidChange(_ sender: UITextField) {
+        return
     }
 }
 
+//MARK: MKLocalSearchCompleter handling
+extension CreateTripViewController : MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        for result in completer.results {
+            print("result: \(result)")
+        }
+        if let firstResult = completer.results.first {
+            print("firstResult.title = \(firstResult.title)")
+//            showSuggestion(firstResult.title)
+        }
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print("Error with autocompleter: \(error)")
+    }
+}
+
+//MARK: TextField Delegate
+extension CreateTripViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("update search results!")
+    }
+    
+}
+
+extension CreateTripViewController : CLLocationManagerDelegate {
+    func attemptLocationAccess() {
+        guard CLLocationManager.locationServicesEnabled() else { return }
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.delegate = self
+        
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        } else {
+            print("requesting location")
+            locationManager.requestLocation()
+            print(locationManager.location.debugDescription)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        guard status == .authorizedWhenInUse else { return }
+        manager.requestLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let firstLocation = locations.first else { return }
+        
+        let commonDelta: CLLocationDegrees = 25/111
+        let span = MKCoordinateSpan(latitudeDelta: commonDelta, longitudeDelta: commonDelta)
+        let region = MKCoordinateRegion(center: firstLocation.coordinate, span: span)
+        currentRegion = region
+        completer.region = region
+        
+        print(locations.first.debugDescription)
+        CLGeocoder().reverseGeocodeLocation(firstLocation) { places, _ in
+            guard let firstPlace = places?.first,
+                self.originTextField.text == ""
+            else {return}
+            self.currentPlace = firstPlace
+            print("changing originTextField to \(firstPlace.name ?? "unnamed")")
+            self.originTextField.text = firstPlace.name
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location Manager failed with error: \(error)")
+    }
+    
+}
+
+//MARK: Passengers handling
 extension CreateTripViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // do nothing

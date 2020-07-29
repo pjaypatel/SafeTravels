@@ -138,6 +138,7 @@
 		69DD5A0F24BD2F8700C1B323 /* SafeTravels */ = {
 			isa = PBXGroup;
 			children = (
+				69DD5A2024BD2F8A00C1B323 /* Info.plist */,
 				6978FC4724BD35BE008A6C8C /* GoogleService-Info.plist */,
 				69DD5A1024BD2F8700C1B323 /* AppDelegate.swift */,
 				69A7FF8B24BE574900F99895 /* Trip.swift */,
@@ -147,7 +148,6 @@
 				69DD5A1824BD2F8700C1B323 /* Main.storyboard */,
 				69DD5A1B24BD2F8A00C1B323 /* Assets.xcassets */,
 				69DD5A1D24BD2F8A00C1B323 /* LaunchScreen.storyboard */,
-				69DD5A2024BD2F8A00C1B323 /* Info.plist */,
 			);
 			path = SafeTravels;
 			sourceTree = "<group>";

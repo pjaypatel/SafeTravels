@@ -56,7 +56,7 @@ class MapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is CreateTripViewController {
             let DestVC = segue.destination as! CreateTripViewController
-            DestVC.addressString = locationSearchTable.parseAddress(selectedItem: selectedPin!)
+//            DestVC.addressString = locationSearchTable.parseAddress(selectedItem: selectedPin!)
         }
     }
     
