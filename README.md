@@ -9,7 +9,6 @@ iOS application to communicate when a user has arrived at a destination to their
  - Note: Initial build will take an extended period of time (up to a few minutes).
 
 # ToDo
-- Update Maps implementation to newer/cleaner Swift 5/Xcode 11 standard via following: https://www.raywenderlich.com/10028489-routing-with-mapkit-and-core-location
 - Review passing of data between view controllers and adopt a standard to be applied amongst app.
 - Prettify UI once overall backend services are scaled out.
 - Add in localization of certain data to speed things up.
