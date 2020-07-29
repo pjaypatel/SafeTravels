@@ -12,6 +12,7 @@ import FirebaseFirestore
 let db = Firestore.firestore()
 
 class Trip {
+    var origin: String = ""
     var destination: String = ""
     var host: String = ""
     var passengers: [String] = []

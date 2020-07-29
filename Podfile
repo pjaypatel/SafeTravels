@@ -12,6 +12,7 @@ target 'SafeTravels' do
   pod 'GoogleSignIn'
   pod 'FirebaseUI'
   pod 'FirebaseFirestoreSwift'
+  pod 'SearchTextField'
 
   target 'SafeTravelsTests' do
     inherit! :search_paths

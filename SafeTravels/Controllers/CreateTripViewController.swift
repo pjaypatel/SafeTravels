@@ -12,24 +12,24 @@ import MapKit
 import UserNotifications
 import FirebaseFirestore
 import FirebaseAuth
+import SearchTextField
 
 class CreateTripViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     private var currentPlace: CLPlacemark?
     private let completer = MKLocalSearchCompleter()
-    private var editingTextField: UITextField?
+    private var editingTextField: SearchTextField?
     private var currentRegion: MKCoordinateRegion?
     
     var newTrip = Trip()
-
-    @IBOutlet weak var originTextField: UITextField!
-    @IBOutlet weak var destinationTextField: UITextField!
+    var passengers : [String] = []
+    
+    @IBOutlet weak var originTextField: SearchTextField!
+    @IBOutlet weak var destinationTextField: SearchTextField!
     @IBOutlet weak var usersView: UITableView!
     
     var userSearchTable : UserSearchTable?
-    
-    var passengers : [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +37,23 @@ class CreateTripViewController: UIViewController {
         newTrip = Trip()
         usersView.dataSource = self
         usersView.delegate = self
-        originTextField.delegate = self
-        originTextField.addTarget(self, action: #selector(updateSuggestion(_:)), for: .editingChanged)
-        destinationTextField.delegate = self
-        destinationTextField.addTarget(self, action: #selector(updateSuggestion(_:)), for: .editingChanged)
+        configureSearchTextField(field: originTextField)
+        configureSearchTextField(field: destinationTextField)
         completer.delegate = self
         userSearchTable = storyboard!.instantiateViewController(identifier: "UserSearchTable")
         userSearchTable?.customDelegateForDataReturn = self
+    }
+    
+    func configureSearchTextField(field: SearchTextField) {
+        field.delegate = self
+        field.addTarget(self, action: #selector(updateSuggestion(_:)), for: .editingChanged)
+        field.itemSelectionHandler = { filteredResults, itemPosition in
+            let item = filteredResults[itemPosition]
+            let completerResult = self.completer.results[itemPosition]
+            print("item title: \(item.title)")
+            print("completerResult title: \(completerResult.title)")
+            field.text = item.title
+        }
     }
     
     @objc private func updateSuggestion(_ field: UITextField) {
@@ -51,7 +61,9 @@ class CreateTripViewController: UIViewController {
           currentPlace = nil
           field.text = ""
         }
-        editingTextField = field
+        if field is SearchTextField {
+            editingTextField = field as? SearchTextField
+        }
         guard let query = field.text else {
 //          hideSuggestionView(animated: true)
 
@@ -87,15 +99,21 @@ class CreateTripViewController: UIViewController {
 //MARK: MKLocalSearchCompleter handling
 extension CreateTripViewController : MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        for result in completer.results {
-            print("result: \(result)")
-        }
+        let results = convertToSearchItems(from: completer.results)
         if let firstResult = completer.results.first {
             print("firstResult.title = \(firstResult.title)")
-//            showSuggestion(firstResult.title)
+            editingTextField?.filterItems(results)
         }
     }
     
+    func convertToSearchItems(from suggestions: [MKLocalSearchCompletion]) -> [SearchTextFieldItem] {
+        var searchItems : [SearchTextFieldItem] = []
+        for suggestion in suggestions {
+            let item = SearchTextFieldItem(title: suggestion.title, subtitle: suggestion.subtitle)
+            searchItems.append(item)
+        }
+        return searchItems
+    }
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
         print("Error with autocompleter: \(error)")
     }
@@ -109,8 +127,10 @@ extension CreateTripViewController : UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print("update search results!")
+        if textField is SearchTextField {
+            editingTextField = textField as? SearchTextField
+        }
     }
-    
 }
 
 extension CreateTripViewController : CLLocationManagerDelegate {
