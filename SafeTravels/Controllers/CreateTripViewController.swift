@@ -24,6 +24,8 @@ class CreateTripViewController: UIViewController {
     
     var newTrip = Trip()
     var passengers : [String] = []
+    var origin : MKMapItem?
+    var destination : MKMapItem?
     
     @IBOutlet weak var originTextField: SearchTextField!
     @IBOutlet weak var destinationTextField: SearchTextField!
@@ -50,9 +52,36 @@ class CreateTripViewController: UIViewController {
         field.itemSelectionHandler = { filteredResults, itemPosition in
             let item = filteredResults[itemPosition]
             let completerResult = self.completer.results[itemPosition]
-            print("item title: \(item.title)")
-            print("completerResult title: \(completerResult.title)")
+            self.setMapItem(with: completerResult.title + completerResult.subtitle, isDestination: (field == self.destinationTextField))
             field.text = item.title
+        }
+    }
+    
+    func setMapItem(with completerResultTitle: String, isDestination: Bool) {
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = completerResultTitle
+
+        // Set the region to an associated map view's region.
+        searchRequest.region = self.currentRegion!
+        let search = MKLocalSearch(request: searchRequest)
+        search.start { (response, error) in
+            guard let response = response else {
+                print(error)
+                return
+            }
+            
+            if let result = response.mapItems.first {
+                if isDestination {
+                    self.destination = result
+                    print("setting dest")
+                } else {
+                    self.origin = result
+                    print("setting origin")
+                }
+                let name = result.name!
+                let location = result.placemark.location
+                print("\(name): \(location!.coordinate.latitude),\(location!.coordinate.longitude)")
+            }
         }
     }
     
