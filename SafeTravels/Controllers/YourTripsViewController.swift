@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  YourTripsViewController.swift
 //  SafeTravels
 //
 //  Created by Pranay Jay Patel on 7/13/20.
@@ -26,9 +26,11 @@ class YourTripsViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.tabBarController?.tabBar.isHidden = false
         if let user = Auth.auth().currentUser {
             print(user.uid)
             buildTripsArray(from: user)
+            self.trips.sort(by: {$0.time.compare($1.time as Date) == .orderedDescending})
             tripsTable.reloadData()
         } else {
             print("Not logged in!")
@@ -57,6 +59,7 @@ class YourTripsViewController: UITableViewController {
         trip.setTripFields(from: document)
         trip.buildPassengersArray(from: document) { () in
             self.trips.append(trip)
+            self.trips.sort(by: {$0.time.compare($1.time as Date) == .orderedDescending})
             self.tripsTable.reloadData()
         }
     }
@@ -71,7 +74,7 @@ extension YourTripsViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "ViewTripCell")
-        cell.textLabel?.text = "\(trips[indexPath.row].destination)"
+        cell.textLabel?.text = "\(trips[indexPath.row].originName) -> \(trips[indexPath.row].destinationName)"
         cell.detailTextLabel?.text = "Passengers: \(trips[indexPath.row].stringifyPassengers())"
         cell.imageView?.image = UIImage(systemName: "play.circle")
         return cell

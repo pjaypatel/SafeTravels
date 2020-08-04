@@ -27,6 +27,7 @@ class FeedViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.trips = []
         if let user = Auth.auth().currentUser {
             print(user.uid)
             buildFollowingArray(from: user) { () in
@@ -45,6 +46,7 @@ class FeedViewController: UITableViewController {
     
     
     func buildTripsArray(from uid: String, completion: @escaping () -> Void) {
+        self.trips = []
         let docRef = db.collection(K.FStore.tripsCollection.name).document(uid).collection(K.FStore.tripsCollection.userSpecific)
         print("building trips....")
         
@@ -54,7 +56,6 @@ class FeedViewController: UITableViewController {
                 completion()
             } else {
                 for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
                     self.internalizeTrip(from: document)
                 }
                 completion()
@@ -71,7 +72,6 @@ class FeedViewController: UITableViewController {
                 completion()
             } else {
                 for document in querySnapshot!.documents {
-                    print("following: \(document.documentID) => \(document.data())")
                     self.following.append(document.documentID)
                 }
                 completion()
@@ -99,7 +99,7 @@ extension FeedViewController {
         let trip = trips[indexPath.row]
         let tripTime = DateFormatter.localizedString(from: trip.time as Date, dateStyle: .short, timeStyle: .short)
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "TripFeedCell")
-        cell.textLabel?.text = "\(trip.host) made it to \(trip.destination) at \(tripTime)"
+        cell.textLabel?.text = "\(trip.host) made it to \(trip.destinationName) at \(tripTime)"
         cell.detailTextLabel?.text = "Passengers: \(trip.passengers)"
         cell.imageView?.image = UIImage(systemName: "play.circle")
         return cell

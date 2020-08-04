@@ -10,8 +10,6 @@
 		18994584E604A41DD6EB4E31 /* Pods_SafeTravelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3F6C19F4F03AA3947869A1 /* Pods_SafeTravelsTests.framework */; };
 		60B461F9C7A293CE083B025C /* Pods_SafeTravels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97C8A5619C2AB2B20A5FEAC /* Pods_SafeTravels.framework */; };
 		6900CC6C24CB64E500ED82DC /* SingleTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6900CC6B24CB64E500ED82DC /* SingleTripViewController.swift */; };
-		6923C51024C77B2E0021EA76 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923C50C24C77B280021EA76 /* MapViewController.swift */; };
-		6923C51124C77B2E0021EA76 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923C50D24C77B2A0021EA76 /* LocationSearchTable.swift */; };
 		6923C51224C77B2E0021EA76 /* UserSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923C50E24C77B2C0021EA76 /* UserSearchTable.swift */; };
 		6923C51324C77B2E0021EA76 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923C50F24C77B2E0021EA76 /* CreateTripViewController.swift */; };
 		6978FC4824BD35BE008A6C8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6978FC4724BD35BE008A6C8C /* GoogleService-Info.plist */; };
@@ -51,8 +49,6 @@
 /* Begin PBXFileReference section */
 		5EA34F87A95FE5D18FA519D4 /* Pods-SafeTravels-SafeTravelsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeTravels-SafeTravelsUITests.release.xcconfig"; path = "Target Support Files/Pods-SafeTravels-SafeTravelsUITests/Pods-SafeTravels-SafeTravelsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6900CC6B24CB64E500ED82DC /* SingleTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTripViewController.swift; sourceTree = "<group>"; };
-		6923C50C24C77B280021EA76 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		6923C50D24C77B2A0021EA76 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		6923C50E24C77B2C0021EA76 /* UserSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTable.swift; sourceTree = "<group>"; };
 		6923C50F24C77B2E0021EA76 /* CreateTripViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
 		6978FC4724BD35BE008A6C8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -174,8 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				6923C50F24C77B2E0021EA76 /* CreateTripViewController.swift */,
-				6923C50D24C77B2A0021EA76 /* LocationSearchTable.swift */,
-				6923C50C24C77B280021EA76 /* MapViewController.swift */,
 				6923C50E24C77B2C0021EA76 /* UserSearchTable.swift */,
 				69DD5A1424BD2F8700C1B323 /* FeedViewController.swift */,
 				69DD5A1624BD2F8700C1B323 /* YourTripsViewController.swift */,
@@ -489,10 +483,8 @@
 				69A7FF8824BE47AD00F99895 /* TabBarController.swift in Sources */,
 				69DD5A1724BD2F8700C1B323 /* YourTripsViewController.swift in Sources */,
 				69DD5A1524BD2F8700C1B323 /* FeedViewController.swift in Sources */,
-				6923C51024C77B2E0021EA76 /* MapViewController.swift in Sources */,
 				6923C51324C77B2E0021EA76 /* CreateTripViewController.swift in Sources */,
 				69DD5A1124BD2F8700C1B323 /* AppDelegate.swift in Sources */,
-				6923C51124C77B2E0021EA76 /* LocationSearchTable.swift in Sources */,
 				69A7FF8C24BE574900F99895 /* Trip.swift in Sources */,
 				69A7FF9024BE594B00F99895 /* Constants.swift in Sources */,
 				69A7FF8624BD8C2900F99895 /* LoginViewController.swift in Sources */,
