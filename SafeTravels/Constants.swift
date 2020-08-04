@@ -16,7 +16,12 @@ struct K {
             static let userSpecific = "userTrips"
         }
         struct tripDocument {
-            static let destField = "destination"
+            static let originField = "originName"
+            static let originLatField = "originLat"
+            static let originLongField = "originLong"
+            static let destField = "destinationName"
+            static let destLatField = "destinationLat"
+            static let destLongField = "destinationLong"
             static let hostField = "host"
             static let timeField = "time"
             static let passengers = "passengers"

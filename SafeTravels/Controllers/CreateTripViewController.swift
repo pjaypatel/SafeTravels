@@ -73,9 +73,19 @@ class CreateTripViewController: UIViewController {
             if let result = response.mapItems.first {
                 if isDestination {
                     self.destination = result
+                    self.newTrip.destinationName = result.name ?? ""
+                    if let location = result.placemark.location {
+                        self.newTrip.destinationLong = location.coordinate.longitude
+                        self.newTrip.destinationLat = location.coordinate.latitude
+                    }
                     print("setting dest")
                 } else {
                     self.origin = result
+                    self.newTrip.originName = result.name ?? ""
+                    if let location = result.placemark.location {
+                        self.newTrip.originLong = location.coordinate.longitude
+                        self.newTrip.originLat = location.coordinate.latitude
+                    }
                     print("setting origin")
                 }
                 let name = result.name!
@@ -200,6 +210,9 @@ extension CreateTripViewController : CLLocationManagerDelegate {
             self.currentPlace = firstPlace
             print("changing originTextField to \(firstPlace.name ?? "unnamed")")
             self.originTextField.text = firstPlace.name
+            self.newTrip.originName = firstPlace.name ?? ""
+            self.newTrip.originLat = firstPlace.location?.coordinate.latitude ?? 0.0
+            self.newTrip.originLong = firstPlace.location?.coordinate.longitude ?? 0.0
         }
     }
     
