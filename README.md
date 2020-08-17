@@ -15,6 +15,7 @@ iOS application to communicate when a user has arrived at a destination to their
 - Add in localization of certain data to speed things up.
 - Complete SingleTrip view
 - Find pod to use for progress throughout trip to apply as icon in YourTrips view
+- Prototype UI on `marvelapp.com`
 
 
 # Xcode Warnings Tracker
