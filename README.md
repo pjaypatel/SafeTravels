@@ -1,4 +1,5 @@
 # SafeTravels
+![alt text](https://github.com/pjpatel12/SafeTravels/blob/master/SafeTravelsGimpBackgroundReduced.png)
 iOS application to communicate when a user has arrived at a destination to their friends. This application is still in the process of being built.
 
 # How to run
