@@ -13,7 +13,6 @@ iOS application to communicate when a user has arrived at a destination to their
 - Review passing of data between view controllers and adopt a standard to be applied amongst app.
 - Prettify UI once overall backend services are scaled out.
 - Add in localization of certain data to speed things up.
-- Create logo
 - Complete SingleTrip view
 - Find pod to use for progress throughout trip to apply as icon in YourTrips view
 
