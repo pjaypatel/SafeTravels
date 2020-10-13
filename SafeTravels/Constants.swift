@@ -31,8 +31,10 @@ struct K {
         }
         struct userDocument {
             static let name = "name"
+            static let username = "username"
             static let email = "email"
             static let phone = "phone"
+            static let password = "password"
         }
         struct followingCollection {
             static let name = "following"

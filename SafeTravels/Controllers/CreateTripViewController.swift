@@ -66,7 +66,7 @@ class CreateTripViewController: UIViewController {
         let search = MKLocalSearch(request: searchRequest)
         search.start { (response, error) in
             guard let response = response else {
-                print(error)
+                print(error ?? "")
                 return
             }
             
@@ -161,6 +161,7 @@ extension CreateTripViewController : MKLocalSearchCompleterDelegate {
 //MARK: TextField Delegate
 extension CreateTripViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
         return false
     }
     

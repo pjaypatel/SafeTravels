@@ -21,6 +21,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     }
     
     @IBAction func googleSignInPressed(_ sender: Any) {
+        // do nothing, waiting to implement new functionality for this
         GIDSignIn.sharedInstance().signIn()
     }
     
