@@ -16,6 +16,7 @@ class SingleTripViewController: UIViewController {
     @IBOutlet weak var destinationLabel: UILabel?
     @IBOutlet weak var passengersLabel: UILabel?
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var tripStatusLabel: UILabel!
     
     var trip : Trip?
     var origin : MKMapItem?
@@ -34,11 +35,20 @@ class SingleTripViewController: UIViewController {
         setupLocationManager()
         updateFields()
     }
+    @IBAction func printLocationBtnClick(_ sender: UIButton) {
+        if let location = locationManager.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            self.currentRegion = region
+            print("Lat: \(region.center.latitude) Long: \(region.center.longitude)")
+        }
+    }
     
     func setupLocationManager() {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.requestAlwaysAuthorization()
         locationManager.requestLocation()
     }
     
@@ -64,9 +74,10 @@ class SingleTripViewController: UIViewController {
         }
     }
     
-    
-    @IBAction func startBtnClicked(_ sender: Any) {
+    @IBAction func startBtnClicked(_ sender: UIButton) {
         print("START!")
+        sender.isHidden = true
+        tripStatusLabel.isHidden = false
     }
     
 }
@@ -79,6 +90,9 @@ extension SingleTripViewController {
             let coords = CLLocationCoordinate2D(latitude: lat, longitude: long)
             if isDestination {
                 self.destination = MKMapItem(placemark: MKPlacemark(coordinate: coords))
+                let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), radius: 200, identifier: "dest")
+                region.notifyOnEntry = true
+                locationManager.startMonitoring(for: region)
                 print("Done with dest")
             } else {
                 self.origin = MKMapItem(placemark: MKPlacemark(coordinate: coords))
@@ -95,7 +109,7 @@ extension SingleTripViewController {
         request.destination = destination
 
         // Specify the transportation type
-        request.transportType = MKDirectionsTransportType.automobile;
+        request.transportType = MKDirectionsTransportType.automobile
 
         // If you're open to getting more than one route,
         // requestsAlternateRoutes = true; else requestsAlternateRoutes = false;
@@ -139,11 +153,23 @@ extension SingleTripViewController : CLLocationManagerDelegate {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             self.currentRegion = region
+            print("Lat: \(region.center.latitude) Long: \(region.center.longitude)")
+        }
+        if destination?.isCurrentLocation == true {
+            print("Made it!")
+            tripStatusLabel.text = "Made it!"
+            tripStatusLabel.textColor = UIColor.green
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error: \(error)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("Made it!")
+        tripStatusLabel.text = "Made it"
+        tripStatusLabel.textColor = UIColor.green
     }
 }
 

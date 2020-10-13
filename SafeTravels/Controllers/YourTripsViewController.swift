@@ -36,7 +36,16 @@ class YourTripsViewController: UITableViewController {
             print("Not logged in!")
         }
     }
-    
+    @IBAction func signOutBtnClicked(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            print("attempting signout")
+            self.navigationController?.popToRootViewController(animated: true)
+            self.performSegue(withIdentifier: "Logout", sender: nil)
+        } catch let signOutError as NSError {
+          print ("Error signing out: %@", signOutError)
+        }
+    }
     
     func buildTripsArray(from user: User) {
         trips = []
